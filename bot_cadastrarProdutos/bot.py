@@ -55,8 +55,13 @@ def main():
         bot.tab()
         bot.control_a()      
         bot.type_keys(str(produto['preco_custo']))
-        
+
         bot.tab()
+        bot.control_a()
+        bot.type_keys(str(produto['subsidio']))
+
+        bot.tab()
+
         bot.tab()
         bot.control_a()
         bot.type_keys(str(produto['estoque']))     
