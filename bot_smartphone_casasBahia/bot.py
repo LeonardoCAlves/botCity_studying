@@ -34,11 +34,51 @@ def main():
         )
         bot.driver_path = bot.get_resource_abspath('chromedriver.exe')
 
-
-    # Opens the BotCity website.
     bot.browse("https://www.casasbahia.com.br/")
 
+    if bot.find( "pesquisa", matching=0.97, waiting_time=1000):
+       bot.click()
+
+    bot.paste("smartphone samsung")
+    bot.enter()
  
+    try:
+        bot.find_element(selector='select__select', by=By.CLASS_NAME).click()
+        bot.find_elements(selector='option', by=By.TAG_NAME)[-1].click()
+
+        titulos = bot.find_elements(
+            selector='product-card__title', by=By.CLASS_NAME
+        )
+
+        precos_promo = bot.find_elements(
+            selector='product-card__highlight-price', by=By.CLASS_NAME
+        )
+
+        tipos_pg_promo = bot.find_elements(
+            selector='product-card__highlight-price-description', by=By.CLASS_NAME
+        )
+
+        dados = []
+
+        for titulo, preco_promo, tipo_pg_promo in zip(titulos, precos_promo, tipos_pg_promo):
+            dados.append({
+                'titulo': titulo.text.split(',')[0],
+                'preco_pix': preco_promo.text,
+                'tipo_pg_promo': tipo_pg_promo.text
+            }) 
+        
+        df = pd.DataFrame(dados)
+        df.index = df.index + 1
+        df.to_csv(
+            'smartphone_casasBahia_maisVendidos.csv',
+            encoding='utf-8',
+            index_label="Posição",
+            sep=';'
+        )
+
+    except Exception as e:
+        print(f'Erro: {e}')
+
 
     bot.wait(3000)
     bot.stop_browser()
@@ -57,3 +97,6 @@ def not_found(label):
 
 if __name__ == '__main__':
     main()
+
+
+
