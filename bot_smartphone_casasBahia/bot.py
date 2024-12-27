@@ -4,6 +4,8 @@ import pandas as pd
 
 BotMaestroSDK.RAISE_NOT_CONNECTED = False
 
+fabricante = input('Fabricante: ').lower()
+
 def main():
     maestro = BotMaestroSDK.from_sys_args()
     execution = maestro.get_execution()
@@ -13,7 +15,6 @@ def main():
 
     bot = WebBot()
     bot.headless = False
-
     bot.browser = Browser.CHROME
 
     try:
@@ -39,7 +40,7 @@ def main():
     if bot.find( "pesquisa", matching=0.97, waiting_time=1000):
        bot.click()
 
-    bot.paste("smartphone samsung")
+    bot.paste(f'smartphone {fabricante}')
     bot.enter()
  
     try:
@@ -79,16 +80,14 @@ def main():
     except Exception as e:
         print(f'Erro: {e}')
 
-
     bot.wait(3000)
     bot.stop_browser()
 
-    # Uncomment to mark this task as finished on BotMaestro
-    # maestro.finish_task(
-    #     task_id=execution.task_id,
-    #     status=AutomationTaskFinishStatus.SUCCESS,
-    #     message="Task Finished OK."
-    # )
+    maestro.finish_task(
+        task_id=execution.task_id,
+        status=AutomationTaskFinishStatus.SUCCESS,
+        message="Task Finished OK."
+    )
 
 
 def not_found(label):
