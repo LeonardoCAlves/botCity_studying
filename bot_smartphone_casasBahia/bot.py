@@ -36,6 +36,8 @@ def main():
 
     bot.browse("https://www.casasbahia.com.br/")
 
+    
+
     if bot.find( "pesquisa", matching=0.97, waiting_time=1000):
        bot.click()
 
