@@ -39,10 +39,6 @@ def main():
 
     bot.browse("https://www.casasbahia.com.br/")
 
-    
-    
-    
-
     bot.wait(10000)
     bot.stop_browser()
 
